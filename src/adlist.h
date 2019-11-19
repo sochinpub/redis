@@ -33,10 +33,11 @@
 
 /* Node, List, and Iterator are the only data structures used currently. */
 
+// 链表节点
 typedef struct listNode {
     struct listNode *prev;
     struct listNode *next;
-    void *value;
+    void *value;			// 数据区
 } listNode;
 
 typedef struct listIter {
@@ -44,13 +45,17 @@ typedef struct listIter {
     int direction;
 } listIter;
 
+/*
+ * 链表
+ */
 typedef struct list {
-    listNode *head;
-    listNode *tail;
-    void *(*dup)(void *ptr);
-    void (*free)(void *ptr);
-    int (*match)(void *ptr, void *key);
-    unsigned long len;
+    listNode *head;						// 链头
+    listNode *tail;						// 链尾
+    /* 链表数据域操作函数 */
+    void *(*dup)(void *ptr);			// 数据复制函数
+    void (*free)(void *ptr);			// 数据释放函数
+    int (*match)(void *ptr, void *key);	// 匹配函数
+    unsigned long len;					// 链表节点数
 } list;
 
 /* Functions implemented as macros */
@@ -69,7 +74,9 @@ typedef struct list {
 #define listGetFree(l) ((l)->free)
 #define listGetMatchMethod(l) ((l)->match)
 
-/* Prototypes */
+/* Prototypes
+ * 对外暴露的函数原型声明
+ */
 list *listCreate(void);
 void listRelease(list *list);
 void listEmpty(list *list);
@@ -89,7 +96,10 @@ void listRotate(list *list);
 void listJoin(list *l, list *o);
 
 /* Directions for iterators */
-#define AL_START_HEAD 0
-#define AL_START_TAIL 1
+/*
+ * 迭代器迭代方向
+ */
+#define AL_START_HEAD 0		// 0:从头部迭代
+#define AL_START_TAIL 1		// 1:从尾部迭代
 
 #endif /* __ADLIST_H__ */
